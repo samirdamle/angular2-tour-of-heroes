@@ -70,25 +70,26 @@ var HEROES: Hero[] = [
         }
         `
     ],
-
     template:`
         <h1>{{title}}</h1>
         <h2>My Heroes</h2>
-        <ul>
-            <li *ngFor="#hero of heroes" (click)="onSelect(hero)">
+        <ul class="heroes">
+            <li *ngFor="#hero of heroes" (click)="onSelect(hero)" [class.selected]="hero === selectedHero">
                 <span class="badge">{{hero.id}}</span> {{hero.name}}
             </li>
         </ul>
 
-        <h2>{{selectedHero.name}} details!</h2>
-        <div>
-            <label>id: </label>{{selectedHero.id}}
-        </div>
-
-        <div>
-            <label>name: </label>
+        <div *ngIf="selectedHero">
+            <h2>{{selectedHero.name}} details!</h2>
             <div>
-                <input [(ngModel)]="selectedHero.name" placeholder="name">
+                <label>id: </label>{{selectedHero.id}}
+            </div>
+
+            <div>
+                <label>name: </label>
+                <div>
+                    <input [(ngModel)]="selectedHero.name" placeholder="name">
+                </div>
             </div>
         </div>
         `
@@ -96,14 +97,13 @@ var HEROES: Hero[] = [
 })
 export class AppComponent {
     public title = 'Tour of Heroes';
-    public selectedHero: Hero = {
-        id: 1,
-        name: 'Windstorm'
-    };
+    public selectedHero: Hero;
 
     public heroes = HEROES;
 
-    onSelect(hero: Hero) { this.selectedHero = hero; }
+    onSelect(hero: Hero) {
+        this.selectedHero = hero;
+    }
 
 }
 
